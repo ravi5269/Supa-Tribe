@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "base",
     "users",
+    "groups",
+    "posts",
+    "comments",
     "rest_framework",
     "rest_framework_simplejwt",
 ]
