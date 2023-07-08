@@ -5,8 +5,9 @@ from posts.models import Post
 from posts.serializers import PostSerializer
 
 
-# Create your views here.
 
+# Create your views here.
+from django.core.paginator import Paginator
 from rest_framework import generics
 
 

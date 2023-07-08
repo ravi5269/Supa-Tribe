@@ -7,7 +7,7 @@ from users.models import User
 from django.contrib.auth.models import User
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "password")

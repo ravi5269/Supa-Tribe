@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from users.serializers import UserRegistrationSerializer
+from users.serializers import UserLoginSerializer
 from rest_framework.views import APIView
 
 # from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -15,9 +15,9 @@ from rest_framework.generics import get_object_or_404
 from users.serializers import UserSerializer
 
 
-class UserRegistrationView(APIView):
+class UserLoginSerializer(APIView):
     def post(self, request):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -82,6 +82,7 @@ class UserGeneric(generics.ListCreateAPIView, generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+   
 
 class UserGeneric2(generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = User.objects.all()
