@@ -10,6 +10,14 @@ from posts.serializers import PostSerializer
 from django.core.paginator import Paginator
 from rest_framework import generics
 
+from rest_framework import filters
+
+class UserListView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title','id']
+
 
 class PostGeneric(generics.ListCreateAPIView):
     queryset = Post.objects.all()
