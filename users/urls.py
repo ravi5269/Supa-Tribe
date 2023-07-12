@@ -1,11 +1,10 @@
 from django.urls import path
-from users.views import UserLoginSerializer, UserAPIView, UserGeneric, UserGeneric2
+from users.views import UserLogin, UserGeneric, UserGeneric2, UserAPIView
 
 urlpatterns = [
-    path("user-login/", UserLoginSerializer.as_view(), name="user-login"),
-    path("user/", UserAPIView.as_view()),
-    path("user/<int:pk>", UserAPIView.as_view()),
+    path("user-login/", UserLogin.as_view(), name="user-login"),
+    path("users/", UserAPIView.as_view()),
+    path("users/<int:pk>", UserAPIView.as_view()),
     path("generic/", UserGeneric.as_view()),
-    path("generic-user/<id>", UserGeneric2.as_view()),
-    
+    path("generic/<int:pk>", UserGeneric2.as_view()),
 ]

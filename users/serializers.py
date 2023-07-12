@@ -14,12 +14,21 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
 
+    # def create(self, instance, validated_data):
+    #     password = validated_data.get("password", instance.password)
+    #     if password:
+    #         instance.set_password(password)
+    #         instance.save()
+    #         return instance
+
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data["username"],
+        user = User.objects.create_user(
+            username=validated_data["username"], password=validated_data["password"]
         )
+
         user.set_password(validated_data["password"])
         user.save()
+
         return user
 
 
@@ -28,12 +37,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
-    def create(self, instance, validated_data):
-        password = validated_data.get("password", instance.password)
-        if password:
-            instance.set_password(password)
-            instance.save()
-            return instance
+    # def create(self, instance, validated_data):
+    #     password = validated_data.get("password", instance.password)
+    #     if password:
+    #         instance.set_password(password)
+    #         instance.save()
+    #         return instance
 
     def create(self, validated_data):
         user = User.objects.create_user(

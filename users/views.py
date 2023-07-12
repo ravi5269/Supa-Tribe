@@ -15,9 +15,9 @@ from rest_framework.generics import get_object_or_404
 from users.serializers import UserSerializer
 
 
-class UserLoginSerializer(APIView):
+class UserLogin(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -78,19 +78,12 @@ class UserAPIView(APIView):
 from rest_framework import generics
 
 
-class UserGeneric(generics.ListCreateAPIView, generics.CreateAPIView):
+class UserGeneric(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-   
 
 class UserGeneric2(generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    lookup_field = "id"
-
-
-class RetrieveUserView(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    lookup_fields = ["username"]
+    # lookup_field = "id"

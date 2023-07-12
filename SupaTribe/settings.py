@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "smsapp",
     "rest_framework",
     "rest_framework_simplejwt",
-    'django_filters',
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -178,18 +178,13 @@ SIMPLE_JWT = {
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 2,
 }
 
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST = 587
-EMAIL_HOST_USER = 'holkar.msc@gmail.com'
-EMAIL_HOST_PASSWORD = 'holkar1234'
+EMAIL_HOST_USER = "holkar.msc@gmail.com"
+EMAIL_HOST_PASSWORD = "holkar1234"
 EMAIL_USE_TLS = True
-
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
-# }

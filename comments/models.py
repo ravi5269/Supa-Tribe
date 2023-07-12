@@ -12,5 +12,5 @@ class Comment(BaseModel):
     likes = models.ManyToManyField(User, related_name="Like")
     commented_At = models.OneToOneField(Post, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
-        return self.content
+    def __str__(self):
+        return str(self.content)

@@ -1,5 +1,5 @@
 from django.urls import path
-from groups.views import GroupGeneric, GroupGeneric2,UserListView
+from groups.views import GroupGeneric, GroupGeneric2, UserListView
 
 urlpatterns = [
     path("group/", GroupGeneric.as_view()),
