@@ -19,12 +19,17 @@ class UserListView(generics.ListAPIView):
     search_fields = ["title", "id"]
 
 
-class PostGeneric(generics.ListCreateAPIView):
+class PostListAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
-class PostGeneric2(generics.UpdateAPIView, generics.DestroyAPIView):
+class PostDetailAPIView(
+    generics.UpdateAPIView,
+    generics.DestroyAPIView,
+    generics.ListAPIView,
+    generics.RetrieveAPIView,
+):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = "id"

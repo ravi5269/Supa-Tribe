@@ -14,19 +14,24 @@ from rest_framework.filters import SearchFilter
 from rest_framework import filters
 
 
-class UserListView(generics.ListAPIView):
+class GroupListAPIView(generics.ListCreateAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+
+class GroupDetailAPIView(
+    generics.UpdateAPIView,
+    generics.DestroyAPIView,
+    generics.ListAPIView,
+    generics.RetrieveAPIView,
+):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    lookup_field = "id"
+
+
+class GroupFilterAPIView(generics.ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["id", "name"]
-
-
-class GroupGeneric(generics.ListCreateAPIView):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
-
-class GroupGeneric2(generics.UpdateAPIView, generics.DestroyAPIView):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    lookup_field = "id"

@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "groups",
     "posts",
     "comments",
-    "smsapp",
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
