@@ -12,24 +12,14 @@ from rest_framework import generics
 from rest_framework import filters
 
 
-class UserListView(generics.ListAPIView):
+class PostListAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["title", "id"]
 
 
-class PostListAPIView(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
-class PostDetailAPIView(
-    generics.UpdateAPIView,
-    generics.DestroyAPIView,
-    generics.ListAPIView,
-    generics.RetrieveAPIView,
-):
+class PostDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = "id"

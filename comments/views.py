@@ -9,21 +9,13 @@ from rest_framework import generics
 
 
 class CommentListAPIView(generics.ListCreateAPIView):
-    # import pdb; pdb.set_trace()
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-
-
-class CommentDetailAPIView(
-    generics.UpdateAPIView, generics.DestroyAPIView, generics.RetrieveAPIView
-):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    lookup_field = "id"
-
-
-class CommentFilterAPIView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["id"]
+
+
+class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    lookup_field = "id"

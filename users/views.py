@@ -1,14 +1,13 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from users.serializers import UserLoginSerializer
 from rest_framework.views import APIView
 
-# from rest_framework.permissions import AllowAny, IsAuthenticated
+
 from rest_framework.response import Response
 from users.serializers import User
 from rest_framework import status
 from users.admin import User
 
-# from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import get_object_or_404
 from rest_framework import filters
 from rest_framework import generics
@@ -31,67 +30,17 @@ class UserLogin(APIView):
         )
 
 
-class UserAPIView(APIView):
-    def get(self, request, pk=None):
-        if pk:
-            user = get_object_or_404(User, pk=pk)
-            serializer = UserSerializer(user)
-
-            return Response(
-                {"message": "Success", "data": serializer.data},
-                status=status.HTTP_200_OK,
-            )
-
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(
-            {"message": "Success", "data": serializer.data},
-            status=status.HTTP_200_OK,
-        )
-
-    def put(self, request, pk=None):
-        user = get_object_or_404(User, pk=pk)
-        serializer = UserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Success", "data": serializer.data})
-        else:
-            return Response({"message": "Data not found", "data": serializer.errors})
-
-    def patch(self, request, pk=None):
-        user = get_object_or_404(User, pk=pk)
-        serializer = UserSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Success", "data": serializer.data})
-        else:
-            return Response({"message": "Data not found", "data": serializer.errors})
-
-    def delete(self, request, pk=None):
-        user = get_object_or_404(User, pk=pk)
-        user.delete()
-        return Response(
-            {"message": "Success", "status": True},
-            status=status.HTTP_204_NO_CONTENT,
-        )
-
-
 class UserListAPIView(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetailAPIView(generics.UpdateAPIView, generics.DestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    # lookup_field = "id"
-
-
-class UserFilterAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ["id"]
+
+
+class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    # lookup_field = "id"
 
 
 # class LoginSms(models.Model):
