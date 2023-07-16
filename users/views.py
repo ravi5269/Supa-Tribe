@@ -94,7 +94,7 @@ class UserVerifyAPIView(APIView):
                         'message':'somthing went worng',
                         'data': 'invalid email'
                 })
-                if not user[0].otp != otp:
+                if not user[0].otp == otp:
                     return Response({
                         'status':False,
                         'message':'somthing went worng',
@@ -103,6 +103,7 @@ class UserVerifyAPIView(APIView):
                 
                 user= user.first()
                 user.is_verified = True
+                user.active = True
                 user.save()
                 
                 return Response({
@@ -126,7 +127,48 @@ class UserVerifyAPIView(APIView):
 
 
 
-
+#   def post(self, request):
+#         try:
+#             data = request.data
+#             serializer = VerifyAccountSerializer(data=data)
+            
+#             if serializer.is_valid():
+#                 email = serializer.data['email']
+#                 otp = serializer.data['otp']
+                
+#                 user = User.objects.filter(email=email)
+#                 if not user.exists():
+#                     return Response({
+#                         'status':400,
+#                         'message':'Email not found',
+#                         'data': "invalid email",
+#                     })
+                
+#                 if not user[0].otp == otp:
+#                     return Response({
+#                         'status':400,
+#                         'message':'Invalid Otp',
+#                         'data': "invalid otp",
+#                     })
+#                 user = user.first()
+#                 user.is_verified = True
+#                 user.active = True
+#                 user.save()
+                
+#                 return Response({
+#                     'status':200,
+#                     'message':'Account Verified Successfully.',
+#                     'data': {},
+#                 })
+#             return Response({
+#                     'status':500,
+#                     'message':'Something went wrong.',
+#                     'data': serializer.errors,
+#                 })
+            
+            
+#         except Exception as e:
+#             print(e)
 
 
 
