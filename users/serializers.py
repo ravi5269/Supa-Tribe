@@ -2,24 +2,15 @@ from rest_framework import serializers
 from users.models import User
 
 # serializers.py
-
 # from rest_framework import serializers
 from django.contrib.auth.models import User
-
 
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "password")
-
     password = serializers.CharField(write_only=True)
 
-    # def create(self, instance, validated_data):
-    #     password = validated_data.get("password", instance.password)
-    #     if password:
-    #         instance.set_password(password)
-    #         instance.save()
-    #         return instance
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -71,3 +62,16 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class UserJionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+
+
+class  UserVerifySerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField()
+
+    

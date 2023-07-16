@@ -1,9 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
-
 # Create your models here.
-
 
 class User(AbstractBaseUser):
     username = models.CharField(
@@ -24,5 +22,7 @@ class User(AbstractBaseUser):
     state = models.CharField(("State"), max_length=20, blank=True, db_index=True)
     country = models.CharField(("Country"), max_length=20, blank=True, db_index=True)
 
-    USERNAME_FIELD = "name"
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name", "email", "phone"]
+
+
