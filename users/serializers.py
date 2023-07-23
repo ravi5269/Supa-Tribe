@@ -2,19 +2,18 @@ from rest_framework import serializers
 from users.models import User
 
 # serializers.py
-# from rest_framework import serializers
 from django.contrib.auth.models import User
 
-class UserLoginSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("username", "password")
+        fields = ["email", "password"]
     password = serializers.CharField(write_only=True)
 
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data["username"], password=validated_data["password"]
+            username=validated_data["email"], password=validated_data["password"]
         )
 
         user.set_password(validated_data["password"])
@@ -27,13 +26,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
-
-    # def create(self, instance, validated_data):
-    #     password = validated_data.get("password", instance.password)
-    #     if password:
-    #         instance.set_password(password)
-    #         instance.save()
-    #         return instance
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -64,21 +56,23 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class UserJionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['email']
+# class EmailJionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ["email","password"]
 
-    def create(self, validated_data):
-        user = User.objects.create(
-            email=validated_data['email'],
-        )
-        user.save()
-        return user
+#     def create(self, validated_data):
+#         user = User.objects.create(
+#             email=validated_data['email']
+#         )
+#         user.set_password(validated_data["password"])
+#         user.save()
+#         user.save()
+#         return user
 
 
-class  UserVerifySerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    otp = serializers.CharField()
+# class EmailVerifySerializer(serializers.Serializer):
+#     email = serializers.EmailField()
+#     otp = serializers.CharField()
 
     

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from users.serializers import UserLoginSerializer
 from rest_framework.views import APIView
 
 from rest_framework.response import Response
@@ -10,7 +9,12 @@ from users.admin import User
 from rest_framework.generics import get_object_or_404
 from rest_framework import filters
 from rest_framework import generics
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer,UserRegisterSerializer
+from users.models import User
+from django.conf import settings 
+from users.email import send_otp_via_mail
+# from users.serializers import EmailVerifySerializer
+
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -26,7 +30,7 @@ class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class UserLogin(APIView):
     def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
+        serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(
@@ -37,23 +41,18 @@ class UserLogin(APIView):
             {"status": False, "message": serializer.errors},
             status=status.HTTP_400_BAD_REQUEST,
         )
-    
 
-from django.core.mail import send_mail
-import random
-from django.conf import settings
-from users.email import send_otp_via_email
-from users.serializers import UserVerifySerializer,UserJionSerializer
+
 
 class UserJoinAPIView(APIView):
     def post(self,request):
         try:
             data = request.data
-            serializer = UserJionSerializer(data= data)
-            
+            serializer =UserRegisterSerializer(data= data)
+            # import pdb; pdb.set_trace()
             if serializer.is_valid():
-                
                 # serializer.save()
+
                 email = User.objects.filter(User)
                 if User.objects.filter(email = email).exists():
                     return Response({
@@ -62,7 +61,7 @@ class UserJoinAPIView(APIView):
                     })
 
                 serializer.save()
-                send_otp_via_email(serializer.data['email'])
+                send_otp_via_mail(serializer.data['email'])
                 return Response({
                     'status':True,
                     'message':'registraion successfully chek email',
@@ -77,11 +76,11 @@ class UserJoinAPIView(APIView):
             print(e)
 
 
-class UserVerifyAPIView(APIView):
+class UserEmailVerifyAPIView(APIView):
     def post(self,request):
         try:
             data = request.data
-            serializers = UserVerifySerializer(data= data)
+            serializers = EmailVerifySerializer(data= data)
 
             if serializers.is_valid():
                 email = serializers.data['email']
@@ -91,14 +90,14 @@ class UserVerifyAPIView(APIView):
                 if not user.exists():
                     return Response({
                         'status':False,
-                        'message':'somthing went worng',
+                        'message':'Email not found',
                         'data': 'invalid email'
                 })
                 if not user[0].otp == otp:
                     return Response({
                         'status':False,
-                        'message':'somthing went worng',
-                        'data': 'worng otp'
+                        'message':'Invalid Otp',
+                        'data': 'Invalid Otp'
                     })
                 
                 user= user.first()
@@ -108,68 +107,15 @@ class UserVerifyAPIView(APIView):
                 
                 return Response({
                     'status':True,
-                    'message':'account verified',
+                    'message':'Account Verified Successfully.',
                     'data': {},
                 })
                     
             return Response({
-                'status':False,
+                'status':500,
                 'message':'somthing went worng',
                 'data': serializers.errors
             })
         except Exception as e:
             print(e)
-
-
-
-
-
-
-
-
-#   def post(self, request):
-#         try:
-#             data = request.data
-#             serializer = VerifyAccountSerializer(data=data)
-            
-#             if serializer.is_valid():
-#                 email = serializer.data['email']
-#                 otp = serializer.data['otp']
-                
-#                 user = User.objects.filter(email=email)
-#                 if not user.exists():
-#                     return Response({
-#                         'status':400,
-#                         'message':'Email not found',
-#                         'data': "invalid email",
-#                     })
-                
-#                 if not user[0].otp == otp:
-#                     return Response({
-#                         'status':400,
-#                         'message':'Invalid Otp',
-#                         'data': "invalid otp",
-#                     })
-#                 user = user.first()
-#                 user.is_verified = True
-#                 user.active = True
-#                 user.save()
-                
-#                 return Response({
-#                     'status':200,
-#                     'message':'Account Verified Successfully.',
-#                     'data': {},
-#                 })
-#             return Response({
-#                     'status':500,
-#                     'message':'Something went wrong.',
-#                     'data': serializer.errors,
-#                 })
-            
-            
-#         except Exception as e:
-#             print(e)
-
-
-
-
+        

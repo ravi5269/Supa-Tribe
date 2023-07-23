@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+
 ]
 
 MIDDLEWARE = [
@@ -178,12 +180,14 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 5,
+    "PAGE_SIZE": 10,
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST = 587
-EMAIL_HOST_USER = "holkar.msc.cs@gmail.com"
-EMAIL_HOST_PASSWORD = "7869144369"
+EMAIL_HOST_USER = "ravipatelkant@gmail.com"
+EMAIL_HOST_PASSWORD = "xitjwwtuofyxxlxd"
+
+AUTH_USER_MODEL = 'users.user'
