@@ -13,7 +13,7 @@ from users.serializers import UserSerializer,UserRegisterSerializer
 from users.models import User
 from django.conf import settings 
 from users.email import send_otp_via_mail
-# from users.serializers import EmailVerifySerializer
+from users.serializers import EmailVerifySerializer,EmailJionSerializer
 
 
 class UserListAPIView(generics.ListCreateAPIView):
@@ -46,13 +46,12 @@ class UserLogin(APIView):
 
 class UserJoinAPIView(APIView):
     def post(self,request):
+        import pdb; pdb.set_trace()
         try:
             data = request.data
-            serializer =UserRegisterSerializer(data= data)
-            # import pdb; pdb.set_trace()
+            serializer =EmailJionSerializer(data= request.data)
             if serializer.is_valid():
-                # serializer.save()
-
+                serializer.save()
                 email = User.objects.filter(User)
                 if User.objects.filter(email = email).exists():
                     return Response({
@@ -60,7 +59,7 @@ class UserJoinAPIView(APIView):
                         'message':'email is already exists'
                     })
 
-                serializer.save()
+                # serializer.save()
                 send_otp_via_mail(serializer.data['email'])
                 return Response({
                     'status':True,

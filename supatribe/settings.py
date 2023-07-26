@@ -86,7 +86,7 @@ WSGI_APPLICATION = "supatribe.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "supatribe",
+        "NAME": "supatribe2",
         "USER": "postgres",
         "PASSWORD": "1234",
         "HOST": "localhost",
@@ -180,7 +180,7 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 9,
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -190,4 +190,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "ravipatelkant@gmail.com"
 EMAIL_HOST_PASSWORD = "xitjwwtuofyxxlxd"
 
-AUTH_USER_MODEL = 'users.user'
+AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = (
+    ('django.contrib.auth.backends.ModelBackend'),
+)

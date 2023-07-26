@@ -5,15 +5,6 @@ from users.manager import UserManager
 # Create your models here.
 
 class User(AbstractBaseUser):
-    username = models.CharField(
-        ("username"),
-        max_length=10,
-        null=False,
-        blank=True,
-        unique=True,
-        db_index=True,
-        db_column="username",
-    )
     name = models.CharField(("Name"), max_length=50, blank=True, db_index=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(("Phone"), max_length=12, blank=True, db_index=True)
@@ -22,8 +13,12 @@ class User(AbstractBaseUser):
     city = models.CharField(("City"), max_length=20, blank=True, db_index=True)
     state = models.CharField(("State"), max_length=20, blank=True, db_index=True)
     country = models.CharField(("Country"), max_length=20, blank=True, db_index=True)
-    # otp = models.IntegerField(null=True,blank=True)
-    # is_verified = models.BooleanField(default=False)
+    otp = models.IntegerField(null=True,blank=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+
+    
 
     objects = UserManager()
 
@@ -32,9 +27,11 @@ class User(AbstractBaseUser):
 
 
     def __str__(self):
-       return self.email
+        return self.email
     
-# class Profile(AbstractBaseUser):
-    # email = models.EmailField(unique=True)
-    # otp = models.IntegerField(null=True,blank=True)
-    # is_verified = models.BooleanField(default=True)
+    def has_module_perms(self,app_label):
+        return True
+    
+    def has_perm(self,perm,obj = None):
+        return True
+    

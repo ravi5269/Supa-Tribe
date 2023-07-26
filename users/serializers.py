@@ -56,23 +56,23 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-# class EmailJionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["email","password"]
+class EmailJionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email","password","is_verified"]
 
-#     def create(self, validated_data):
-#         user = User.objects.create(
-#             email=validated_data['email']
-#         )
-#         user.set_password(validated_data["password"])
-#         user.save()
-#         user.save()
-#         return user
+    def create(self, validated_data):
+        user = User.objects.create(
+            email=validated_data['email']
+        )
+        user.set_password(validated_data["password"])
+        user.save()
+        user.save()
+        return user
 
 
-# class EmailVerifySerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-#     otp = serializers.CharField()
+class EmailVerifySerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp = serializers.CharField()
 
     
