@@ -79,11 +79,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={
-                "abstract": False,
-            },
-            managers=[
-                ("objects", users.manager.UserManager()),
-            ],
-        ),
+            options={"abstract": False},
+            managers=[("objects", users.manager.UserManager())],
+        )
     ]

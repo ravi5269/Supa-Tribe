@@ -17,4 +17,4 @@ class Post(BaseModel):
     likes = models.ManyToManyField(User, related_name="likes")
 
     def __str__(self) -> str:
-        return (f"{self.title},{self.owner},{self.posted_at}")
+        return f"{self.title},{self.owner},{self.posted_at}"

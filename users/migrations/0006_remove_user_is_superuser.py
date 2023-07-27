@@ -4,13 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ("users", "0005_remove_user_username"),
-    ]
+    dependencies = [("users", "0005_remove_user_username")]
 
-    operations = [
-        migrations.RemoveField(
-            model_name="user",
-            name="is_superuser",
-        ),
-    ]
+    operations = [migrations.RemoveField(model_name="user", name="is_superuser")]

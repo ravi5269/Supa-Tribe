@@ -1,36 +1,27 @@
 from rest_framework import serializers
 from users.models import User
 
-# serializers.py
+from users.models import User
+
 from django.contrib.auth.models import User
 
-class UserRegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["email", "password"]
-    password = serializers.CharField(write_only=True)
+from django.contrib.auth import get_user_model
 
-
-    def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data["email"], password=validated_data["password"]
-        )
-
-        user.set_password(validated_data["password"])
-        user.save()
-
-        return user
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["email", "password"]
+        # extra_kwargs = {
+        #     "id": {"read_only": True},
+        #     "email": {"required": True},
+        #     "password": {"required": True},
+        # }
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data["username"], password=validated_data["password"]
-        )
+        user = User.objects.create(**validated_data)
 
         user.set_password(validated_data["password"])
         user.save()
@@ -56,23 +47,6 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class EmailJionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["email","password","is_verified"]
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            email=validated_data['email']
-        )
-        user.set_password(validated_data["password"])
-        user.save()
-        user.save()
-        return user
-
-
-class EmailVerifySerializer(serializers.Serializer):
+class VerifySerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp = serializers.CharField()
-
-    
