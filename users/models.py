@@ -8,10 +8,10 @@ from users.manager import UserManager
 class User(AbstractBaseUser):
     name = models.CharField(("Name"), max_length=50, blank=True, db_index=True)
     email = models.EmailField(unique=True)
-    phone = models.CharField(("Phone"), max_length=12, blank=True, db_index=True)
+    phone = models.CharField(unique = True)
     bio = models.CharField(("Bio"), max_length=12, blank=True, db_index=True)
     image = models.ImageField(
-        ("Image"), upload_to=None, height_field=None, width_field=None, max_length=100
+        ("Image"), upload_to="image", height_field=None, width_field=None, max_length=100
     )
     city = models.CharField(("City"), max_length=20, blank=True, db_index=True)
     state = models.CharField(("State"), max_length=20, blank=True, db_index=True)
@@ -20,12 +20,12 @@ class User(AbstractBaseUser):
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     objects = UserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ("phone",)
 
     def __str__(self):
         return self.email
